@@ -21,7 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -67,9 +67,8 @@ public final class Elevator extends SlimefunItem implements Listener {
     }
 
     @EventHandler
-    private void onJump(@Nonnull PlayerMoveEvent e) {
-        if (e.getTo() != null && e.getTo().getY() > e.getFrom().getY()
-                && e.getFrom().getY() - e.getFrom().getBlockY() < 0.05) {
+    private void onJump(@Nonnull PlayerJumpEvent e) {
+        if (!e.isCancelled()) {
             Location check = elevatorUnder(e.getFrom());
 
             if (BlockStorage.check(check, getId())) {
